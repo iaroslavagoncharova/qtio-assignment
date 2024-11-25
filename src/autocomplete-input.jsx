@@ -19,16 +19,24 @@ const AutocompleteInput = () => {
       setValue("");
       return;
     }
-    // fetch suggestions with apiClient.search
     setLoading(true);
-    apiClient.search(event.target.value).then((response) => {
-      if (response) {
-        setSuggestions(response);
-      } else {
+    // fetch suggestions with apiClient.search
+    apiClient
+      .search(event.target.value)
+      .then((response) => {
+        if (response) {
+          setSuggestions(response);
+        } else {
+          setSuggestions([]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching suggestions", error);
         setSuggestions([]);
-      }
-      setLoading(false);
-    });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <div>
